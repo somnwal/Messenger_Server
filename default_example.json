@@ -1,0 +1,3 @@
+{
+    "monogoURI" : "mongodb+srv://<id>:<pw>@test.y50xf.mongodb.net/test?retryWrites=true"
+}
