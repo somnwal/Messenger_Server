@@ -22,7 +22,7 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { id, password } = req.body;
+        const { id, password, token } = req.body;
 
         try {
             let user = await User.findOne({ id });
@@ -40,6 +40,10 @@ router.post(
                     .status(400)
                     .json({ errors: [{ msg: "올바르지 않은 ID 혹은 비밀번호입니다." }] })
             }
+
+            user.token = token;
+
+            await user.save();
 
             res.send({ "success" : true });
         } catch (err) {

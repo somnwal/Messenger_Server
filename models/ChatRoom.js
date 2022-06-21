@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const MessageSchema = new Schema({
+const ChatRoomSchema = new Schema({
     from_user: {
         type: String,
         required: true
@@ -10,13 +10,10 @@ const MessageSchema = new Schema({
         type: String,
         required: true
     },
-    msg: {
-        type: String
-    },
     date: {
         type: Date,
         default: Date.now
     }
 });
 
-module.exports = Message = mongoose.model('messages', MessageSchema);
+module.exports = ChatRoom = mongoose.model('chatrooms', ChatRoomSchema);

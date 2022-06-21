@@ -29,7 +29,8 @@ router.post(
                 .json({ errors: errors.array() });
         }
 
-        const { id, password, name, token } = req.body;
+        const { id, password, name } = req.body;
+        const token = '';
 
         try {
             let user = await User.findOne({ id });
@@ -50,7 +51,7 @@ router.post(
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt);
             
-            user.save();
+            await user.save();
 
             res
                 .send({ "success" : true });
@@ -61,5 +62,46 @@ router.post(
                 .send('Server Error');
         }
     });
+
+    router.post(
+        '/token',
+        [
+            check('token', 'token값이 입력되지 않았습니다.')
+                .not()
+                .isEmpty()
+        ],
+        async (req, res) => {
+            const errors = validationResult(req);
+    
+            if(!errors.isEmpty()) {
+                return res
+                    .status(400)
+                    .json({ errors: errors.array() });
+            }
+    
+            const { id, token } = req.body;
+    
+            try {
+                let user = await User.findOne({ id });
+    
+                if(!user) {
+                    return res
+                        .status(400)
+                        .json({ errors: [{ msg: "해당하는 유저가 없습니다." }] })
+                }
+    
+                user.token = token;
+    
+                await user.save();
+    
+                res
+                    .send({ "success" : true });
+            } catch (err) {
+                console.error(err.message);
+                res
+                    .status(500)
+                    .send('Server Error');
+            }
+        });
 
 module.exports = router;
