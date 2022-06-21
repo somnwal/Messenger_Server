@@ -31,13 +31,10 @@ router.get('/all', async (req, res) => {
 // 해당 유저가 참여한 방 가져오기
 router.get('/rooms', async (req, res) => {
     try {
-        const { from_user, to_user } = req.body
+        const { from_user } = req.body
 
-        const list = await Message
-            .find()
-            .or([{ from_user: from_user }, { from_user: to_user }])
-            .select('-msg')
-            .select('-date')
+        const list = await ChatRoom
+            .find({ from_user: from_user })
 
         res.json(list);
     } catch (err) {
