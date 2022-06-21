@@ -56,6 +56,10 @@ router.post('/send', async (req, res) => {
         const { from_user, to_user, msg } = req.body
         const date = Date.now()
 
+        // User 객체 받기
+        const from_user_obj = await User.findOne({ id: from_user });
+        const to_user_obj = await User.findOne({ id : to_user });
+
         var chatRoom_from = await ChatRoom
             .findOne({ from_user: from_user, to_user: to_user});
 
@@ -65,14 +69,18 @@ router.post('/send', async (req, res) => {
         if(!chatRoom_from) {
             chatRoom_from = new ChatRoom({
                 from_user: from_user,
-                to_user: to_user
+                to_user: to_user,
+                from_user_name: from_user_obj.name,
+                to_user_name: to_user_obj.name
             });
         }
 
         if(!chatRoom_to) {
             chatRoom_to = new ChatRoom({
                 from_user: to_user,
-                to_user: from_user
+                to_user: from_user,
+                from_user_name: to_user_obj.name,
+                to_user_name: from_user_obj.name
             });
         }
 
@@ -81,9 +89,7 @@ router.post('/send', async (req, res) => {
         chatRoom_from.date = date
         chatRoom_to.date = date
 
-        // User 객체 받기
-        const from_user_obj = await User.findOne({ id: from_user });
-        const to_user_obj = await User.findOne({ id : to_user });
+        
 
         const newMessage = new Message({
             from_user: from_user,

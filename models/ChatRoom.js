@@ -9,6 +9,14 @@ const ChatRoomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    from_user_name: {
+        type: String,
+        required: true
+    },
+    to_user_name: {
+        type: String,
+        required: true
+    },
     last_message: {
         type: String,
         required: true
