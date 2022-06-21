@@ -35,6 +35,7 @@ router.get('/rooms', async (req, res) => {
 
         const list = await ChatRoom
             .find({ from_user: from_user })
+            .sort({ date: 1 })
 
         res.json(list);
     } catch (err) {
