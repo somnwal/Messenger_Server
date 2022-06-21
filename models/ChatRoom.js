@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const ChatRoomSchema = new Schema({
+const ChatRoomSchema = new mongoose.Schema({
     from_user: {
         type: String,
         required: true
     },
     to_user: {
+        type: String,
+        required: true
+    },
+    last_message: {
         type: String,
         required: true
     },

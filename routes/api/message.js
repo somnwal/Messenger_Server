@@ -53,7 +53,7 @@ router.post('/rooms', async (req, res) => {
 router.post('/send', async (req, res) => {
 
     try {
-        const { from_user, to_user } = req.body
+        const { from_user, to_user, msg } = req.body
         const date = Date.now()
 
         var chatRoom_from = await ChatRoom
@@ -76,6 +76,8 @@ router.post('/send', async (req, res) => {
             });
         }
 
+        chatRoom_from.last_message = msg
+        chatRoom_to.last_message = msg
         chatRoom_from.date = date
         chatRoom_to.date = date
 
@@ -86,7 +88,7 @@ router.post('/send', async (req, res) => {
         const newMessage = new Message({
             from_user: from_user,
             to_user: to_user,
-            msg: req.body.msg,
+            msg: msg,
             date: date
         });
 
