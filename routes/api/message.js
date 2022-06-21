@@ -13,7 +13,7 @@ router.get('/test', (req, res) => {
 });
 
 // 유저간 대화한 내용 가져오기
-router.get('/all', async (req, res) => {
+router.post('/all', async (req, res) => {
     try {
         const { from_user, to_user } = req.body
 
@@ -32,7 +32,7 @@ router.get('/all', async (req, res) => {
 });
 
 // 해당 유저가 참여한 방 가져오기
-router.get('/rooms', async (req, res) => {
+router.post('/rooms', async (req, res) => {
     try {
         const { from_user } = req.body
 
