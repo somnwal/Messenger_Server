@@ -4,6 +4,9 @@ const { check, valudationResult, validationResult } = require('express-validator
 
 const Message = require('../../models/Message');
 const ChatRoom = require('../../models/ChatRoom');
+const User = require('../../models/User');
+
+const PushService = require('../../util/PushService');
 
 router.get('/test', (req, res) => {
     res.send('Message Route');
@@ -76,6 +79,10 @@ router.post('/send', async (req, res) => {
         chatRoom_from.date = date
         chatRoom_to.date = date
 
+        // User 객체 받기
+        const from_user_obj = await User.findOne({ id: from_user });
+        const to_user_obj = await User.findOne({ id : to_user });
+
         const newMessage = new Message({
             from_user: from_user,
             to_user: to_user,
@@ -86,6 +93,11 @@ router.post('/send', async (req, res) => {
         const message = await newMessage.save();
         await chatRoom_from.save();
         await chatRoom_to.save();
+
+        // 앱 푸시 보내기
+        const pushService = new PushService();
+
+        pushService.send(to_user_obj.token, from_user_obj.name, message.msg);
 
         res.json(message);
     } catch (err) {
