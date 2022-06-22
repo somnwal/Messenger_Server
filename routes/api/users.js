@@ -9,6 +9,27 @@ router.get('/test', (req, res) => {
     res.send('User Route');
 });
 
+router.get('/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        let user = await User.findOne({ id }).select('-password');
+
+        if(!user) {
+            return res
+                .status(400)
+                .json({ errors: [{ msg: "해당하는 유저가 존재하지 않습니다." }] })
+        }
+
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res
+            .status(500)
+            .send('Server Error');
+    }
+});
+
 router.post(
     '/',
     [
