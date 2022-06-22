@@ -15,12 +15,22 @@ router.get('/test', (req, res) => {
 // 유저간 대화한 내용 가져오기
 router.post('/all', async (req, res) => {
     try {
-        const { from_user, to_user } = req.body
+        const { from_user, to_user, date } = req.body
 
-        const list = await Message
+        let list = null
+
+        if(!date) {
+            list = await Message
             .find()
             .or([{ from_user: from_user }, { from_user: to_user }])
             .sort({ date: 1 });
+        } else {
+            list = await Message
+            .find()
+            .where('date').gt(date)
+            .or([{ from_user: from_user }, { from_user: to_user }])
+            .sort({ date: 1 });
+        }
 
         res.json(list);
     } catch (err) {
