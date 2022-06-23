@@ -1,0 +1,3 @@
+{
+    "mongoURI" : "mongodb+srv://somnwal:1234@test.y50xf.mongodb.net/messenger?retryWrites=true"
+}
