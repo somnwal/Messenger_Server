@@ -22,13 +22,13 @@ router.post('/all', async (req, res) => {
         if(!date) {
             list = await Message
             .find()
-            .or([{ from_user: from_user }, { from_user: to_user }])
+            .or([{ from_user: from_user, to_user: to_user }, { from_user: to_user, to_user: from_user }])
             .sort({ date: 1 });
         } else {
             list = await Message
             .find()
             .where('date').gt(date)
-            .or([{ from_user: from_user }, { from_user: to_user }])
+            .or([{ from_user: from_user, to_user: to_user }, { from_user: to_user, to_user: from_user }])
             .sort({ date: 1 });
         }
 
