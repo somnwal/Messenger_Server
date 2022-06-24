@@ -58,7 +58,7 @@ router.post(
 
             if(user) {
                 return res
-                    .status(400)
+                    .status(210)
                     .json({ errors: [{ msg: "ERR_ID_EXIST" }] })
             }
 
