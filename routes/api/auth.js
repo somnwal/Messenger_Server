@@ -45,7 +45,7 @@ router.post(
 
             await user.save();
 
-            res.send({ "success" : true });
+            res.send(user);
         } catch (err) {
             console.error(err.message);
             res
