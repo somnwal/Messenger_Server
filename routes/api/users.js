@@ -33,12 +33,12 @@ router.get('/:id', async (req, res) => {
 router.post(
     '/',
     [
-        check('id', 'ID가 입력되지 않았습니다.')
+        check('id', 'ERR_ID')
             .not()
             .isEmpty(),
-        check('password', '비밀번호는 6자 이상 15자 이하로 입력해주세요.')
+        check('password', 'ERR_PASSWORD')
             .isLength({ min: 6, max: 15 }),
-        check('name', '이름은 2자 이상 8자 이하로 입력해주세요.')
+        check('name', 'ERR_NAME')
             .isLength({ min: 2, max: 8 })
     ],
     async (req, res) => {
@@ -59,7 +59,7 @@ router.post(
             if(user) {
                 return res
                     .status(400)
-                    .json({ errors: [{ msg: "해당하는 ID가 이미 존재합니다." }] })
+                    .json({ errors: [{ msg: "ERR_ID_EXIST" }] })
             }
 
             user = new User({
